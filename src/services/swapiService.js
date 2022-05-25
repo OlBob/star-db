@@ -12,37 +12,37 @@ export default class swapiService {
         return body;
     }
 
-    async getAllPeople() {
+    getAllPeople = async () => {
         const res = await this.getResource(`people/`);
         return res.results.map(this._transformPerson);
     }
 
-    async getPerson(id = 1) {
+    getPerson = async (id = 1) => {
         const person = await this.getResource(`people/${id}/`)
         return this._transformPerson(person)
     }
 
-    async getAllPlanets() {
+    getAllPlanets = async () => {
         const res = await this.getResource(`planets/`);
         return res.results.map(this._transformPlanet);
     }
 
-    async getPlanet(id = 0) {
+    getPlanet = async (id = 0) => {
         const planet = await this.getResource(`planets/${id}/`);
         return this._transformPlanet(planet)
     }
 
-    async getAllStarships() {
+    getAllStarships = async () => {
         const res = await this.getResource(`starships/`);
         return res.results.map(this._transformStarship);
     }
 
-    async getStarship(id = 0) {
+    getStarship = async (id = 0) => {
         const starship = await this.getResource(`starships/${id}/`);
         return this._transformStarship(starship)
     }
 
-    _extractId(item) {
+    _extractId = (item) => {
         const idRegExp = /\/([0-9]*)\/$/;
         return item.url.match(idRegExp)[1];
     }

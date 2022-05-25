@@ -71,10 +71,12 @@ export default class RandomPlanet extends Component {
 const ShowPlanet = ({ planet }) => {
   const { id = 12, name, population, rotationPeriod, diameter } = planet;
 
+  const imgId = id === 20 ? 12 : id;
+
   return (
     <>
       <img className="planet-image" alt='planet'
-        src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} />
+        src={`https://starwars-visualguide.com/assets/img/planets/${imgId}.jpg`} />
       <div>
         <h4>{name}</h4>
         <ul className="list-group list-group-flush">

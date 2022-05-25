@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import swapiService from '../../services/swapiService';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 
 import './item-list.css';
 
 export default class ItemList extends Component {
-
-  swapi = new swapiService()
 
   state = {
     items: [],
@@ -24,19 +21,23 @@ export default class ItemList extends Component {
   }
 
   getItemList = () => {
-    this.swapi
-      .getAllPeople()
+    const { getData } = this.props;
+
+    getData()
       .then(this.onItemsLoaded)
       .catch(err => this.setState({ error: true }))
   }
 
   renderItems(arr) {
-    return arr.map(({ name, id }) => {
+    return arr.map((item) => {
+      const { id } = item;
+      const label = this.props.renderItemList(item);
+
       return <li
         key={id}
         className="list-group-item"
         onClick={() => this.props.onItemSelected(id)}>
-        {name}
+        {label}
       </li>
     })
   }
