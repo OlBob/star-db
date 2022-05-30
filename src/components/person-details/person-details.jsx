@@ -2,8 +2,26 @@ import React, { Component } from 'react';
 import swapiService from '../../services/swapiService';
 import ErrorIndicator from '../error-indicator';
 import Spinner from '../spinner';
+import ErrorButton from '../error-button';
 
 import './person-details.css';
+
+
+class ErrorBoundary extends Component {
+
+  state = {
+    hasError: false
+  }
+
+  componentDidCatch() {
+    this.setState({ hasError: true })
+  }
+
+  render() {
+    if (this.state.hasError) return <ErrorIndicator />
+    return this.props.children
+  }
+}
 
 export default class PersonDetails extends Component {
 
@@ -65,6 +83,7 @@ export default class PersonDetails extends Component {
         {errorMessage}
         {spinner}
         {content}
+
       </div>
     )
   }
@@ -75,7 +94,7 @@ const ShowPerson = ({ person }) => {
   const { id, name, gender, birthYear, eyeColor } = person;
 
   return (
-    <>
+    <ErrorBoundary>
       <img className="person-image"
         alt="person_image"
         src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} />
@@ -96,7 +115,8 @@ const ShowPerson = ({ person }) => {
             <span>{eyeColor}</span>
           </li>
         </ul>
+        <ErrorButton />
       </div>
-    </>
+    </ErrorBoundary>
   )
 }
