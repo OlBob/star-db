@@ -11,7 +11,7 @@ import ErrorIndicator from '../error-indicator';
 import Row from '../row-container';
 import ErrorBoundary from '../error-boundary';
 
-import ItemDetails from '../item-details';
+import ItemDetails, { Record } from '../item-details';
 
 
 
@@ -49,15 +49,25 @@ export default class App extends React.Component {
 
     const personDetails = (
       <ItemDetails
-        itemId={11}
+        itemId={5}
         getData={getPerson}
-        getImage={this.swapi.getPersonImage} />
+        getImage={this.swapi.getPersonImage} >
+
+        <Record field='gender' label='Gender' />
+        <Record field='eyeColor' label='Eye Color' />
+      </ItemDetails>
     )
     const starshipDetails = (
       <ItemDetails
-        itemId={5}
+        itemId={11}
         getData={getStarship}
-        getImage={this.swapi.getStarshipImage} />
+        getImage={this.swapi.getStarshipImage} >
+
+        <Record field='crew' label='Crew' />
+        <Record field='length' label='Length' />
+        <Record field='model' label='Model' />
+        <Record field='passengers' label='Passengers' />
+      </ItemDetails>
     )
 
     return (

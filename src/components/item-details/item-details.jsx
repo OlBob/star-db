@@ -7,6 +7,18 @@ import ErrorBoundary from '../error-boundary';
 
 import './item-details.css';
 
+const Record = ({ item, field, label }) => {
+  return (
+    <li className="list-group-item">
+
+      <strong><span className="term">{label}:</span></strong>
+      <span>{item[field]}</span>
+    </li>
+  )
+}
+
+export { Record }
+
 export default class ItemDetails extends Component {
 
   swapi = new swapiService();
@@ -63,7 +75,7 @@ export default class ItemDetails extends Component {
 
     const errorMessage = error ? <ErrorIndicator /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const content = hasData ? <ShowItem item={item} image={image} /> : null;
+    const content = hasData ? <ShowItem item={item} image={image} children={this.props.children} /> : null;
 
 
     return (
@@ -77,10 +89,10 @@ export default class ItemDetails extends Component {
   }
 }
 
-const ShowItem = ({ item, image }) => {
-  debugger
+const ShowItem = ({ item, image, children }) => {
+  // debugger
 
-  const { id, name, gender, birthYear, eyeColor } = item;
+  const { id, name } = item;
 
   return (
     <ErrorBoundary>
@@ -91,18 +103,11 @@ const ShowItem = ({ item, image }) => {
       <div className="card-body">
         <h4>{name} {id}</h4>
         <ul className="list-group list-group-flush">
-          <li className="list-group-item">
-            <span className="term">Gender</span>
-            <span>{gender}</span>
-          </li>
-          <li className="list-group-item">
-            <span className="term">Birth Year</span>
-            <span>{birthYear}</span>
-          </li>
-          <li className="list-group-item">
-            <span className="term">Eye Color</span>
-            <span>{eyeColor}</span>
-          </li>
+          {
+            React.Children.map(children, (child) => {
+              return React.cloneElement(child, { item })
+            })
+          }
         </ul>
         <ErrorButton />
       </div>
