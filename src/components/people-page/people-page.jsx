@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ItemList from '../item-list';
-import PersonDetails from '../person-details';
+import ItemDetails from '../item-details';
 import swapiService from '../../services/swapiService';
 import Row from '../row-container';
 
@@ -26,8 +26,7 @@ export default class PeoplePage extends React.Component {
                 renderItemList={({ name, gender }) => {
                     return (
                         <>
-                            <span>{name}</span><br />
-                            <span>{gender}</span>
+                            <span>{name}</span><span>{` (${gender})`}</span>
                         </>
                     )
                 }}
@@ -38,7 +37,7 @@ export default class PeoplePage extends React.Component {
             <>
                 <Row
                     leftItem={itemlist}
-                    rightItem={<PersonDetails personId={this.state.selectedItem} />}
+                    rightItem={<ItemDetails personId={this.state.selectedItem} />}
                 />
             </>
         );

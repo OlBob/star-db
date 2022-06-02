@@ -8,6 +8,10 @@ import './app.css';
 import PeoplePage from '../people-page';
 import ErrorButton from '../error-button';
 import ErrorIndicator from '../error-indicator';
+import Row from '../row-container';
+import ErrorBoundary from '../error-boundary';
+
+import ItemDetails from '../item-details';
 
 
 
@@ -33,7 +37,7 @@ export default class App extends React.Component {
 
   render() {
     const { togglePlanet } = this.state;
-    const displayRPlanet = this.state.showRandomPlanet ?
+    const planet = this.state.showRandomPlanet ?
       <RandomPlanet onPlanetToggle={togglePlanet} /> :
       null;
 
@@ -41,22 +45,90 @@ export default class App extends React.Component {
       return <ErrorIndicator />
     }
 
+    const { getPerson, getStarship } = this.swapi;
+
+    const personDetails = (
+      <ItemDetails
+        itemId={11}
+        getData={getPerson}
+        getImage={this.swapi.getPersonImage} />
+    )
+    const starshipDetails = (
+      <ItemDetails
+        itemId={5}
+        getData={getStarship}
+        getImage={this.swapi.getStarshipImage} />
+    )
+
     return (
-      <div>
-        <Header />
-        {displayRPlanet}
-        <div className="row mb2 button-row">
-
-          <button className='toggle-planet btn btn-warning btn-lg'
-            onClick={this.toggleRandomPlanet}>
-            Toggle random planet
-          </button>
-
-          <ErrorButton />
+      <ErrorBoundary>
+        <div className='stardb-app'>
+          <Header />
+          <Row
+            leftItem={personDetails}
+            rightItem={starshipDetails} />
         </div>
-
-        <PeoplePage />
-      </div>
+      </ErrorBoundary>
     );
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* <ErrorBoundary>
+<div className='stardb-app'>
+  <Header />
+  {displayRPlanet}
+<div className="row mb2 button-row">
+
+  <button className='toggle-planet btn btn-warning btn-lg'
+    onClick={this.toggleRandomPlanet}>
+    Toggle random planet
+  </button>
+
+  <ErrorButton />
+</div>
+
+<PeoplePage />
+
+  <Row
+    leftItem={<span>leftItem</span>}
+    rightItem={<ItemDetails itemId={5} />} />
+</div>
+</ErrorBoundary> */}

@@ -3,55 +3,43 @@ import swapiService from '../../services/swapiService';
 import ErrorIndicator from '../error-indicator';
 import Spinner from '../spinner';
 import ErrorButton from '../error-button';
+import ErrorBoundary from '../error-boundary';
 
-import './person-details.css';
+import './item-details.css';
 
-
-class ErrorBoundary extends Component {
-
-  state = {
-    hasError: false
-  }
-
-  componentDidCatch() {
-    this.setState({ hasError: true })
-  }
-
-  render() {
-    if (this.state.hasError) return <ErrorIndicator />
-    return this.props.children
-  }
-}
-
-export default class PersonDetails extends Component {
+export default class ItemDetails extends Component {
 
   swapi = new swapiService();
 
   state = {
-    person: null,
+    item: null,
     loading: true,
-    error: false
+    error: false,
+    image: null
   }
 
   componentDidMount() {
-    this.updatePerson();
+    this.updateItem();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.personId !== prevProps.personId) {
-      this.updatePerson()
+    if (this.props.itemId !== prevProps.itemId) {
+      this.updateItem()
     }
   }
 
-  updatePerson = () => {
-    const { personId } = this.props;
-    if (!personId) {
+  updateItem = () => {
+    const { itemId, getData, getImage } = this.props;
+    if (!itemId) {
       return
     }
-    this.swapi
-      .getPerson(personId)
-      .then((person) => {
-        this.setState({ person, loading: false })
+    getData(itemId)
+      .then((item) => {
+        this.setState({
+          item,
+          loading: false,
+          image: getImage(item)
+        })
       })
       .catch(this.onError)
   }
@@ -65,17 +53,17 @@ export default class PersonDetails extends Component {
 
   render() {
 
-    if (!this.state.person) {
-      return <span>Select a person from a list</span>
+    if (!this.state.item) {
+      return <span>Select an item from a list</span>
     }
 
-    const { loading, error, person } = this.state;
+    const { loading, error, item, image } = this.state;
 
     const hasData = !(loading || error);
 
     const errorMessage = error ? <ErrorIndicator /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const content = hasData ? <ShowPerson person={person} /> : null;
+    const content = hasData ? <ShowItem item={item} image={image} /> : null;
 
 
     return (
@@ -89,15 +77,16 @@ export default class PersonDetails extends Component {
   }
 }
 
-const ShowPerson = ({ person }) => {
+const ShowItem = ({ item, image }) => {
+  debugger
 
-  const { id, name, gender, birthYear, eyeColor } = person;
+  const { id, name, gender, birthYear, eyeColor } = item;
 
   return (
     <ErrorBoundary>
       <img className="person-image"
         alt="person_image"
-        src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} />
+        src={image} />
 
       <div className="card-body">
         <h4>{name} {id}</h4>
