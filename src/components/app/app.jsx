@@ -12,7 +12,7 @@ import Row from '../row-container';
 import ErrorBoundary from '../error-boundary';
 
 import ItemDetails, { Record } from '../item-details';
-
+import ItemList from '../item-list';
 
 
 export default class App extends React.Component {
@@ -45,7 +45,13 @@ export default class App extends React.Component {
       return <ErrorIndicator />
     }
 
-    const { getPerson, getStarship } = this.swapi;
+    const {
+      getPerson,
+      getStarship,
+      getAllPeople,
+      getAllStarships,
+      getAllPlanets
+    } = this.swapi;
 
     const personDetails = (
       <ItemDetails
@@ -70,13 +76,46 @@ export default class App extends React.Component {
       </ItemDetails>
     )
 
+    const peopleList = (
+      <ItemList
+        onItemSelected={this.onItemSelected}
+        getData={getAllPeople}
+      >
+        {({ name }) => {
+          return <span>{name}</span>
+        }}
+      </ItemList>
+    )
+
+    const planetsList = (
+      <ItemList
+        onItemSelected={this.onItemSelected}
+        getData={getAllPlanets}
+      >
+        {({ name }) => {
+          return <span>{name}</span>
+        }}
+      </ItemList>
+    )
+
     return (
       <ErrorBoundary>
-        <div className='stardb-app'>
+        {/* <div className='stardb-app'>
           <Header />
           <Row
             leftItem={personDetails}
             rightItem={starshipDetails} />
+        </div> */}
+
+        <div className='stardb-app'>
+          <Header />
+
+          <Row
+            leftItem={peopleList}
+            rightItem={planetsList}
+          />
+
+
         </div>
       </ErrorBoundary>
     );
