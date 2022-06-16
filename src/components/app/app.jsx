@@ -11,8 +11,10 @@ import ErrorIndicator from '../error-indicator';
 import Row from '../row-container';
 import ErrorBoundary from '../error-boundary';
 
-import ItemDetails, { Record } from '../item-details';
-import ItemList from '../item-list';
+import { Record } from '../item-details';
+
+import { PersonList, PlanetList, StarshipList } from '../sw-components/item-lists';
+import { PersonDetails, PlanetDetails, StarshipDetails } from '../sw-components';
 
 
 export default class App extends React.Component {
@@ -45,75 +47,33 @@ export default class App extends React.Component {
       return <ErrorIndicator />
     }
 
-    const {
-      getPerson,
-      getStarship,
-      getAllPeople,
-      getAllStarships,
-      getAllPlanets
-    } = this.swapi;
-
-    const personDetails = (
-      <ItemDetails
-        itemId={5}
-        getData={getPerson}
-        getImage={this.swapi.getPersonImage} >
-
-        <Record field='gender' label='Gender' />
-        <Record field='eyeColor' label='Eye Color' />
-      </ItemDetails>
-    )
-    const starshipDetails = (
-      <ItemDetails
-        itemId={11}
-        getData={getStarship}
-        getImage={this.swapi.getStarshipImage} >
-
-        <Record field='crew' label='Crew' />
-        <Record field='length' label='Length' />
-        <Record field='model' label='Model' />
-        <Record field='passengers' label='Passengers' />
-      </ItemDetails>
-    )
-
-    const peopleList = (
-      <ItemList
-        onItemSelected={this.onItemSelected}
-        getData={getAllPeople}
-      >
-        {({ name }) => {
-          return <span>{name}</span>
-        }}
-      </ItemList>
-    )
-
-    const planetsList = (
-      <ItemList
-        onItemSelected={this.onItemSelected}
-        getData={getAllPlanets}
-      >
-        {({ name }) => {
-          return <span>{name}</span>
-        }}
-      </ItemList>
-    )
-
     return (
       <ErrorBoundary>
-        {/* <div className='stardb-app'>
-          <Header />
-          <Row
-            leftItem={personDetails}
-            rightItem={starshipDetails} />
-        </div> */}
 
         <div className='stardb-app'>
           <Header />
+          <Row
+            leftItem={<PersonList />}
+            rightItem={
+              <PersonDetails itemId={1} getImage={this.swapi.getPersonImage} >
+                <Record field='gender' label='Gender' />
+                <Record field='eyeColor' label='Eye Color' />
+              </PersonDetails>
+            }
+          />
+
+          {/* <Row
+            leftItem={ <PlanetList /> }
+            rightItem={<PlanetDetails itemId={5} />
+            }
+          />
 
           <Row
-            leftItem={peopleList}
-            rightItem={planetsList}
-          />
+            leftItem={ <StarshipList /> }
+            rightItem={ <StarshipDetails itemId={5} /> }
+          /> */}
+
+
 
 
         </div>
