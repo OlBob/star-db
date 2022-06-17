@@ -15,13 +15,15 @@ const DataWithChidren = (Wrapped, fn) => {
     }
 }
 
-const PersonDataView = ({ name }) => <span>{name}</span>
+const PersonDataView = ({ name, gender }) => <span>{name} {gender}</span>
+const PlanetDataView = ({ name }) => <span>{name}</span>
+const StarshipDataView = ({ name }) => <span>{name}</span>
 
 const PersonList = WithData(DataWithChidren(ItemList, PersonDataView), getAllPeople);
 
-const PlanetList = WithData(ItemList, getAllPlanets);
+const PlanetList = WithData(DataWithChidren(ItemList, PlanetDataView), getAllPlanets);
 
-const StarshipList = WithData(ItemList, getAllStarships);
+const StarshipList = WithData(DataWithChidren(ItemList, StarshipDataView), getAllStarships);
 
 export {
     PersonList,

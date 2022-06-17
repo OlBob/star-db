@@ -10,35 +10,54 @@ const { getPerson, getPlanet, getStarship, getPersonImage, getPlanetImage, getSt
 const DetailsWithChildren = (Wrapped, fn) => {
     return (props) => {
         return <Wrapped {...props}>
-            {fn}
+            {fn.props.children ? fn.props.children : fn}
         </Wrapped>
     }
 }
 
+const DetailsWithImage = (Wrapped, fn) => {
+    return (props) => <Wrapped {...props} getImage={fn} />
+}
 
-const PersonDetails = DetailsWithData(ItemDetails, getPerson)
+const PersonData = <>
+    <Record field='gender' label='Gender' />
+    <Record field='eyeColor' label='Eye Color' />
+</>;
 
-const PlanetDetails = ({ itemId }) => (
-    <ItemDetails
-        itemId={itemId}
-        getData={getPlanet}
-        getImage={getPlanetImage} >
-
-        <Record field='diameter' label='Diameter' />
-    </ItemDetails>
+const PersonDetails = DetailsWithImage(
+    DetailsWithData(
+        DetailsWithChildren(
+            ItemDetails,
+            PersonData
+        ), getPerson
+    ), getPersonImage
 )
 
-const StarshipDetails = ({ itemId }) => (
-    <ItemDetails
-        itemId={itemId}
-        getData={getStarship}
-        getImage={getStarshipImage} >
+const PlanetData = <Record field='diameter' label='Diameter' />
 
-        <Record field='crew' label='Crew' />
-        <Record field='length' label='Length' />
-        <Record field='model' label='Model' />
-        <Record field='passengers' label='Passengers' />
-    </ItemDetails>
+const PlanetDetails = DetailsWithImage(
+    DetailsWithData(
+        DetailsWithChildren(
+            ItemDetails,
+            PlanetData
+        ), getPlanet
+    ), getPlanetImage
+)
+
+const StarshipData = <>
+    <Record field='crew' label='Crew' />
+    <Record field='length' label='Length' />
+    <Record field='model' label='Model' />
+    <Record field='passengers' label='Passengers' />
+</>
+
+const StarshipDetails = DetailsWithImage(
+    DetailsWithData(
+        DetailsWithChildren(
+            ItemDetails,
+            StarshipData
+        ), getStarship
+    ), getStarshipImage
 )
 
 export {
