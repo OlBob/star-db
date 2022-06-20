@@ -52,6 +52,9 @@ export default class App extends React.Component {
 						<PersonDetails itemId={1} />
 						<PlanetDetails itemId={5} />
 						<StarshipDetails itemId={5} />
+						<PersonList />
+						<PlanetList />
+						<StarshipList />
 					</div>
 				</SwapiServiceProvider>
 			</ErrorBoundary>

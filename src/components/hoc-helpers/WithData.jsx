@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Spinner from '../spinner';
 
-const WithData = (WrappedList, getData) => {
+const WithData = (WrappedList) => {
     return class extends Component {
 
         state = {
@@ -10,7 +10,7 @@ const WithData = (WrappedList, getData) => {
 
         componentDidMount() {
 
-            getData()
+            this.props.getData()
                 .then((data) => this.setState({ data }))
         }
 
