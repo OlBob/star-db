@@ -1,14 +1,6 @@
-import { WithData, withSwapiService, compose } from "../hoc-helpers";
+import { WithData, withSwapiService, compose, withChildFunction } from "../hoc-helpers";
 
 import ItemList from "../item-list";
-
-const withChildFunction = (fn) => (Wrapped) => {
-    return (props) => {
-        return <Wrapped {...props}>
-            {fn}
-        </Wrapped>
-    }
-}
 
 const PersonDataView = ({ name, gender }) => <span>{name} {gender}</span>
 const PlanetDataView = ({ name }) => <span>{name}</span>
