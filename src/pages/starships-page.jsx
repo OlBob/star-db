@@ -9,6 +9,7 @@ const StarshipPage = () => {
   return (
     <StarshipList onItemSelected={
       (itemId) => {
+        console.log(itemId)
         navigate(itemId)
       }
     }

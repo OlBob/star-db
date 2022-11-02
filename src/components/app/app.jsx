@@ -11,6 +11,7 @@ import './app.css';
 import StarshipDetails from '../sw-components/starship-details';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 export default class App extends React.Component {
 
@@ -46,7 +47,9 @@ export default class App extends React.Component {
                   }
                 />
                 {/* <Route path='/people' element={<h2>People</h2>} /> */}
-                <Route path='/people' element={<PeoplePage />} />
+                <Route path='/people' element={<PeoplePage />} >
+                  <Route path=':id' element={null} exact />
+                </Route>
                 <Route path='/planets' element={<PlanetPage />} />
                 <Route path='/starships' element={<StarshipPage />} exact />
                 <Route path='/starships/:id' element={<StarshipDetails />} />

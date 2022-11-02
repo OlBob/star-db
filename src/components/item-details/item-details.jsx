@@ -58,6 +58,8 @@ export default class ItemDetails extends Component {
     const { item, image } = this.state;
     const { children } = this.props;
 
+    debugger
+
     if (!item) {
       return <span>Select an item from a list</span>
     }

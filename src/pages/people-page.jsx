@@ -2,24 +2,22 @@ import React from 'react';
 import { PersonList, PersonDetails } from '../components/sw-components';
 import Row from '../components/row-container';
 
-export default class PeoplePage extends React.Component {
+import { withRouter } from '../components/hoc-helpers';
 
-    state = {
-        selectedItem: null
-    }
+const PeoplePage = (props) => {
 
-    onItemSelected = (selectedItem) => this.setState({ selectedItem });
+  // debugger
+  const { navigate } = props.router;
 
-    render() {
-        const { selectedItem } = this.state;
+  return (
+    <Row
+      leftColumn={<PersonList onItemSelected={
+        (itemId) => navigate(itemId)
+      } />}
+      rightColumn={<PersonDetails />}
+    />
+  );
 
-        return (
-            <>
-                <Row
-                    leftColumn={<PersonList onItemSelected={this.onItemSelected} />}
-                    rightColumn={<PersonDetails itemId={selectedItem} />}
-                />
-            </>
-        );
-    }
 };
+
+export default withRouter(PeoplePage);
